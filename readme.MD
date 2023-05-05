@@ -1,4 +1,4 @@
-# Contracts for creating a Decentralized NFT marketplace
+# Decentralized NFT marketplace
     1. `listItem`: List NFT's on the marketplace
     2. `buyItem`: Buy the NFT's
     3. `cancelItem`: Cancel a listing
