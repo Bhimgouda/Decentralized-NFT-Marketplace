@@ -2,6 +2,7 @@
 pragma solidity ^0.8.8;
 
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 error NftMarketplace__PriceMustBeAboveZero();
 error NftMarketplace__NftNotApprovedForMarketplace();
@@ -16,7 +17,7 @@ error NftMarketplace__PriceNotMet(
     uint256 listedItemPrice
 );
 
-contract NftMarketplace {
+contract NftMarketplace is ReentrancyGuard {
     // Type Declarations
 
     struct Listing {
@@ -125,7 +126,7 @@ contract NftMarketplace {
     function buyItem(
         address nftAddress,
         uint256 tokenId
-    ) external payable isListed(nftAddress, tokenId) {
+    ) external payable nonReentrant isListed(nftAddress, tokenId) {
         Listing memory listedItem = s_listings[nftAddress][tokenId];
         if (msg.value < listedItem.price) {
             revert NftMarketplace__PriceNotMet(
@@ -163,7 +164,7 @@ contract NftMarketplace {
         emit UpdatedListing(msg.sender, nftAddress, tokenId, newPrice);
     }
 
-    function withDrawProceeds() external {
+    function withDrawProceeds() external nonReentrant {
         uint256 proceeds = s_proceeds[msg.sender];
         if (proceeds <= 0) {
             revert NftMarketplace__NoProceeds();
