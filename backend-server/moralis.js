@@ -8,7 +8,6 @@ const PORT = process.env.PORT
 const MORALIS_API_KEY = process.env.MORALIS_API_KEY
 
 const address = "0x5e684251a27CaaA7f7b3Dfe73F0943248B6C3fFB";
-
 const chain = EvmChain.SEPOLIA;
 
 app.get("/", async (req,res)=>{

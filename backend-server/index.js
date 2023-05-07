@@ -1,41 +1,44 @@
 if(!process.env.PRODUCTION) require("dotenv").config()
 const express = require("express")
 const app = express()
-const Moralis = require("moralis").default
-const {EvmChain} = require("@moralisweb3/common-evm-utils")
+const ethers = require("ethers")
+const { default: mongoose } = require("mongoose")
+const ListedItem = require("./model/ListedItem")
+// const contractABI = require('./constants/nft-marketplace-abi.json');
+const contractAddresses = require("./constants/contractAddresses.json");
 
+
+
+RPC_URL="http://127.0.0.1:8545/"
 const PORT = process.env.PORT
-const MORALIS_API_KEY = process.env.MORALIS_API_KEY
+const MONGODB_URI = process.env.MONGODB_URI
+const CHAIN_ID = process.env.CHAIN_ID
 
-const address = "0x5e684251a27CaaA7f7b3Dfe73F0943248B6C3fFB";
-const chain = EvmChain.SEPOLIA;
+const provider = new ethers.JsonRpcProvider(RPC_URL)
 
-app.get("/", async (req,res)=>{
-    const data = await getDemoData()
-    return res.send(data)
-})
+const nftMarketplaceAddress = contractAddresses[CHAIN_ID]["NftMarketplace"];
 
-async function getDemoData() {
-    // Get native balance
-    const nativeBalance = await Moralis.EvmApi.balance.getNativeBalance({
-      address,
-      chain,
-    });
-  
-    // Format the native balance formatted in ether via the .ether getter
-    const native = nativeBalance.result.balance.ether;
-  
-    return { native };
-  }
+console.log(nftMarketplaceAddress)
 
-const startServer = async()=>{
-    await Moralis.start({
-        apiKey: MORALIS_API_KEY
-    })
+// const nftMarketplace = new ethers.Contract(contractAddress, contractABI, provider);
 
-    app.listen(PORT, ()=>{
-        console.log(`Server Started on port ${PORT}`)
-    })
-}
+// nftMarketplace.on("ItemListed", async (seller, nftAddress, tokenId, price)=>{
+//         await ListedItem.create({
+//         seller,
+//         nftAddress,
+//         tokenId: parseInt(tokenId),
+//         price: parseInt(price)
+//     })
+// })
 
-startServer()
+// const startServer = async()=>{
+//     await mongoose.connect(MONGODB_URI)
+//     .then(()=>console.log("Connected to DB Successfully"))
+//     .catch((error)=>console.log(error));
+
+//     app.listen(PORT, ()=>{
+//         console.log(`Server Started on port ${PORT}`)
+//     })
+// }
+
+// startServer()
