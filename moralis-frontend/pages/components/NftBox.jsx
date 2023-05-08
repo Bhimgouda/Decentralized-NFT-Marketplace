@@ -5,6 +5,7 @@ import nftAbi from "../../constants/Nft-erc721-abi.json"
 import axios from "axios";
 import Image from "next/image"
 import { Card } from "web3uikit";
+import UpdateListingModal from "./UpdateListingModal"
 
 const truncateStr = (fullStr, strLen) =>{
     if(fullStr.length <= strLen) return fullStr;
@@ -26,7 +27,12 @@ const NftBox = ({price, nftAddress, tokenId, seller}) => {
     const [tokenName, setTokenName] = useState("")
     const [imageUri, setImageUri] = useState("")
     const [tokenDescription, setTokenDescription] = useState("")
+    const [showModal, setShowModal] = useState(false)
     
+    const hideModal = ()=>{
+        setShowModal(false)
+    }
+
     const { runContractFunction: getTokenUri } = useWeb3Contract({
         abi: nftAbi,
         contractAddress: nftAddress,
@@ -60,20 +66,27 @@ const NftBox = ({price, nftAddress, tokenId, seller}) => {
     const isOwnedByUser = seller.toLowerCase() == account
     const formattedSellerAddress = isOwnedByUser ? "you" : truncateStr(seller, 15)
 
+    const handleCardClick = ()=>{
+        isOwnedByUser ? setShowModal(true) : console.log("Let's buy")
+    }
+
     return ( 
         <div>
             <div>
                 {imageUri ? (
-                    <Card title={tokenName} description={tokenDescription}>
-                        <div className="p-2">
-                            <div className="flex flex-col items-end gap-2">
-                                <div>#{tokenId}</div>
-                                <div className="italic text-sm">Owned by {formattedSellerAddress}</div>
-                                <Image loader={()=>imageUri} src={imageUri} height="250" width="250" />
-                                <div>{price/10**18} ETH</div>
+                    <div>
+                        <UpdateListingModal onClose={hideModal} isVisible={showModal} nftAddress={nftAddress} tokenId={tokenId}></UpdateListingModal>
+                        <Card onClick={handleCardClick} title={tokenName} description={tokenDescription}>
+                            <div className="p-2">
+                                <div className="flex flex-col items-end gap-2">
+                                    <div>#{tokenId}</div>
+                                    <div className="italic text-sm">Owned by {formattedSellerAddress}</div>
+                                    <Image loader={()=>imageUri} src={imageUri} height="250" width="250" />
+                                    <div>{price/10**18} ETH</div>
+                                </div>
                             </div>
-                        </div>
-                    </Card>
+                        </Card>
+                    </div>
                 ):(
                     <div>Loading...</div>
                 )}
