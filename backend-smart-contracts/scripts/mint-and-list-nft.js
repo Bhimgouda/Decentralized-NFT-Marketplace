@@ -19,6 +19,8 @@ async function mintAndList() {
     await listingTx.wait(1)
 
     console.log("NFT is listed!")
+
+    
 }
 
 mintAndList()

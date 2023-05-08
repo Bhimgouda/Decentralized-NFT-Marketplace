@@ -9,7 +9,7 @@ const Header = () => {
                 <Link href="/" className="mr-5 bg-black text-white font-bold py-2 px-4 rounded hover:bg-gray-800">
                     Buy
                 </Link>
-                <Link href="/sell-nft" class="bg-black text-white font-bold py-2 px-4 rounded hover:bg-gray-800">
+                <Link href="/sell-nft" className="bg-black text-white font-bold py-2 px-4 rounded hover:bg-gray-800">
                     Sell
                 </Link>
             </div>
