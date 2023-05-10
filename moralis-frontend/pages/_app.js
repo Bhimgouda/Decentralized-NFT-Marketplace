@@ -2,6 +2,7 @@ import '../styles/globals.css'
 import {MoralisProvider} from "react-moralis"
 import Header from './components/Header'
 import Head from 'next/head'
+import {NotificationProvider} from "web3uikit"
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -12,8 +13,10 @@ function MyApp({ Component, pageProps }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <MoralisProvider initializeOnMount={false}>
-        <Header />
-        <Component {...pageProps} />
+        <NotificationProvider>
+          <Header />
+          <Component {...pageProps} />
+        </NotificationProvider>
       </MoralisProvider>
     </>
   )

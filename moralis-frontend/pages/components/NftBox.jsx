@@ -6,6 +6,7 @@ import axios from "axios";
 import Image from "next/image"
 import { Card } from "web3uikit";
 import UpdateListingModal from "./UpdateListingModal"
+import { useNotification } from "web3uikit";
 
 const truncateStr = (fullStr, strLen) =>{
     if(fullStr.length <= strLen) return fullStr;
@@ -28,7 +29,8 @@ const NftBox = ({price, nftAddress, tokenId, seller}) => {
     const [imageUri, setImageUri] = useState("")
     const [tokenDescription, setTokenDescription] = useState("")
     const [showModal, setShowModal] = useState(false)
-    
+    const dispatch = useNotification()
+
     const hideModal = ()=>{
         setShowModal(false)
     }
@@ -40,6 +42,17 @@ const NftBox = ({price, nftAddress, tokenId, seller}) => {
         params: {
             _tokenId: tokenId,
         },
+    })
+
+    const {runContractFunction: buyItem} = useWeb3Contract({
+        abi: nftMarketPlaceAbi,
+        contractAddress: nftAddress,
+        functionName: "buyItem",
+        msgValue: price,
+        params: {
+            nftAddress: nftAddress,
+            tokenId: tokenId
+        }
     })
     
     async function updateUi(){
@@ -67,7 +80,19 @@ const NftBox = ({price, nftAddress, tokenId, seller}) => {
     const formattedSellerAddress = isOwnedByUser ? "you" : truncateStr(seller, 15)
 
     const handleCardClick = ()=>{
-        isOwnedByUser ? setShowModal(true) : console.log("Let's buy")
+        isOwnedByUser ? setShowModal(true) : buyItem({
+            onError: (error) => console.log(error),
+            onSuccess: () => handleBuyItemSuccess()
+        })
+    }
+
+    const handleBuyItemSuccess = ()=>{
+        dispatch({
+            type: "success",
+            message: "Item bought!!",
+            title: "Item Bought",
+            position: "topR"
+        })
     }
 
     return ( 

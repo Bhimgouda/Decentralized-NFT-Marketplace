@@ -1,5 +1,5 @@
 import { useWeb3Contract } from "react-moralis";
-import {Input, Modal} from "web3uikit"
+import {Input, Modal, useNotification} from "web3uikit"
 import nftMarketplaceAbi from "../../constants/contractAbi.json"
 import nftMarketplacAddresses from "../../constants/contractAddresses.json"
 import { useState } from "react";
@@ -9,9 +9,8 @@ const CHAIN_ID = 31337
 const CONTRACT_ADDRESS = nftMarketplacAddresses[CHAIN_ID]["NftMarketplace"]
 
 const UpdateListingModal = ({onClose, nftAddress, tokenId, isVisible}) => {
-
-    const [newPrice, setNewPrice] = useState("0")
-
+    const [newPrice, setNewPrice] = useState(0)
+    
     const {runContractFunction: updateListing} = useWeb3Contract({
         abi: nftMarketplaceAbi,
         contractAddress: CONTRACT_ADDRESS,
@@ -19,9 +18,23 @@ const UpdateListingModal = ({onClose, nftAddress, tokenId, isVisible}) => {
         params: {
             nftAddress,
             tokenId,
-            newPrice: ethers.utils.parseEther(newPrice)
+            newPrice: ethers.utils.parseEther(newPrice.toString() || "0")
         }
     })
+
+    const dispatch = useNotification()
+
+    const handleUpdateListingSuccess = async (tx)=>{
+        await tx.wait(1)
+        dispatch({
+            type: "success",
+            message: "listing updated",
+            title: "Listing Updated - please refresh",
+            position: "topR",
+        })
+        onClose && onClose()
+        setNewPrice(0)
+    }
 
     return ( 
         <div>
@@ -33,9 +46,12 @@ const UpdateListingModal = ({onClose, nftAddress, tokenId, isVisible}) => {
                 onChange={(event)=>{
                     setNewPrice(event.target.value)
                 }}
-                onOk={()=>{
+                onBlur={() => {
                     updateListing({
-                        onError: (error=> console.log(error))
+                        onError: (error) => {
+                            console.log(error)
+                        },
+                        onSuccess: handleUpdateListingSuccess
                     })
                 }}
                 />
