@@ -6,7 +6,7 @@ const soldItemSchema = new Schema({
     nftAddress: String,
     tokenId: Number,
     price: Number,
-    buyer: String
+    buyer: String,
 }, { timestamps: true })
 
 const SoldItem = mongoose.model("SoldItem", soldItemSchema)

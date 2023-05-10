@@ -11,9 +11,11 @@
     1. Home page
         1.1 Show recently listed NFT's
             1.1.1 If you own the NFT, you can update the listing
-            1.1.2 If not, you can buy the listing
+            1.1.2 If not, you can buy the nft from listing
     2. Sell Page
         2.1 You can list your NFT on the marketplace
+        2.2 And withdraw proceeds
+        2.3 And can also cancel the listing
 
 # Backend servers
 

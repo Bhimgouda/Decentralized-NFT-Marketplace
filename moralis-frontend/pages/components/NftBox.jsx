@@ -7,6 +7,10 @@ import Image from "next/image"
 import { Card } from "web3uikit";
 import UpdateListingModal from "./UpdateListingModal"
 import { useNotification } from "web3uikit";
+import nftMarketplacAddresses from "../../constants/contractAddresses.json"
+
+const CHAIN_ID = 31337
+const NFT_MARKETPLACE_ADDRESS = nftMarketplacAddresses[CHAIN_ID]["NftMarketplace"]
 
 const truncateStr = (fullStr, strLen) =>{
     if(fullStr.length <= strLen) return fullStr;
@@ -40,13 +44,13 @@ const NftBox = ({price, nftAddress, tokenId, seller}) => {
         contractAddress: nftAddress,
         functionName: "tokenURI",
         params: {
-            _tokenId: tokenId,
+            tokenId,
         },
     })
 
     const {runContractFunction: buyItem} = useWeb3Contract({
         abi: nftMarketPlaceAbi,
-        contractAddress: nftAddress,
+        contractAddress: NFT_MARKETPLACE_ADDRESS,
         functionName: "buyItem",
         msgValue: price,
         params: {

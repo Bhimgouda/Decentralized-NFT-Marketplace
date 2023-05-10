@@ -1,9 +1,9 @@
 import { useWeb3Contract } from "react-moralis";
 import {Input, Modal, useNotification} from "web3uikit"
 import nftMarketplaceAbi from "../../constants/contractAbi.json"
-import nftMarketplacAddresses from "../../constants/contractAddresses.json"
 import { useState } from "react";
 import {ethers} from "ethers"
+import nftMarketplacAddresses from "../../constants/contractAddresses.json"
 
 const CHAIN_ID = 31337
 const CONTRACT_ADDRESS = nftMarketplacAddresses[CHAIN_ID]["NftMarketplace"]
@@ -47,12 +47,14 @@ const UpdateListingModal = ({onClose, nftAddress, tokenId, isVisible}) => {
                     setNewPrice(event.target.value)
                 }}
                 onBlur={() => {
-                    updateListing({
-                        onError: (error) => {
-                            console.log(error)
-                        },
-                        onSuccess: handleUpdateListingSuccess
-                    })
+                    if(newPrice !== 0){
+                        updateListing({
+                            onError: (error) => {
+                                console.log(error)
+                            },
+                            onSuccess: handleUpdateListingSuccess
+                        })
+                    }
                 }}
                 />
             </Modal>

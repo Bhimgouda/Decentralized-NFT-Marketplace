@@ -6,7 +6,8 @@ const getAllListing = async(req, res)=>{
     res.send(items)
 }
 
-const addToMarketplace = async (seller, nftAddress, tokenId, price)=>{
+const addToMarketplace = async (seller, nftAddress, tokenId, price, event)=>{
+    console.log(event)
     console.log("Add to marketPlace")
     await ListedItem.create({
         seller,
@@ -16,19 +17,22 @@ const addToMarketplace = async (seller, nftAddress, tokenId, price)=>{
     })
 }
 
-const removeFromMarketplace = async (seller, nftAddress, tokenId)=>{
+const removeFromMarketplace = async (seller, nftAddress, tokenId, event)=>{
+    console.log(event)
     console.log("Remove listing")
     tokenId = parseInt(tokenId)
     await ListedItem.findOneAndDelete({nftAddress, tokenId});
 }
 
-const updateItemListing = async(seller, nftAddress, tokenId, price)=>{
+const updateItemListing = async(seller, nftAddress, tokenId, price, event)=>{
+    console.log(event)
     console.log("Update Listing")
     tokenId = parseInt(tokenId)
     await ListedItem.findOneAndUpdate({nftAddress, tokenId}, {price: price.toString()})
 }
 
-const itemSold = async(buyer, nftAddress, tokenId, price)=>{
+const itemSold = async(buyer, nftAddress, tokenId, price, event)=>{
+    console.log(event)
     console.log("Item Sold")
     await SoldItem.create({
         buyer,
