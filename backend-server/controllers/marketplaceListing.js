@@ -1,5 +1,6 @@
 const ListedItem = require("../model/ListedItem");
 const SoldItem = require("../model/SoldItem");
+const { catchAsync } = require("../utils/catchAsync");
 
 const getAllListing = async(req, res)=>{
     const items = await ListedItem.find()
@@ -7,40 +8,49 @@ const getAllListing = async(req, res)=>{
 }
 
 const addToMarketplace = async (seller, nftAddress, tokenId, price, event)=>{
-    console.log(event)
-    console.log("Add to marketPlace")
-    await ListedItem.create({
-        seller,
-        nftAddress,
-        tokenId: parseInt(tokenId),
-        price: price.toString(),
-    })
+    console.log(event.log.transactionHash)
+    try{
+        await ListedItem.create({
+            seller,
+            nftAddress,
+            tokenId: parseInt(tokenId),
+            price: price.toString(),
+            transactionHash: event.log.transactionHash
+        })
+        console.log("Added to marketPlace")
+    } catch(e){
+        if(e.code === 11000) console.log("Duplicate event")
+        else console.log(e)
+    }
 }
 
 const removeFromMarketplace = async (seller, nftAddress, tokenId, event)=>{
-    console.log(event)
-    console.log("Remove listing")
     tokenId = parseInt(tokenId)
     await ListedItem.findOneAndDelete({nftAddress, tokenId});
+    console.log("Removed listing")
 }
 
 const updateItemListing = async(seller, nftAddress, tokenId, price, event)=>{
-    console.log(event)
-    console.log("Update Listing")
     tokenId = parseInt(tokenId)
     await ListedItem.findOneAndUpdate({nftAddress, tokenId}, {price: price.toString()})
+    console.log("Updated Listing")
 }
 
 const itemSold = async(buyer, nftAddress, tokenId, price, event)=>{
-    console.log(event)
-    console.log("Item Sold")
-    await SoldItem.create({
-        buyer,
-        nftAddress,
-        tokenId: parseInt(tokenId),
-        price: price.toString()
-    })
-    await removeFromMarketplace("", nftAddress, tokenId)
+    try{
+        await SoldItem.create({
+            buyer,
+            nftAddress,
+            tokenId: parseInt(tokenId),
+            price: price.toString(),
+            transactionHash: event.log.transactionHash
+        })
+        await removeFromMarketplace("", nftAddress, tokenId)
+        console.log("Item Sold")
+    } catch(e){
+        if(e.code === 11000) console.log("Duplicate event")
+        else console.log(e)
+    }
 }
 
 module.exports = {

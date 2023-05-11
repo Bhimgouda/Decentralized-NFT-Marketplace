@@ -7,6 +7,10 @@ const soldItemSchema = new Schema({
     tokenId: Number,
     price: Number,
     buyer: String,
+    transactionHash: {
+        type: String,
+        unique: true
+    }
 }, { timestamps: true })
 
 const SoldItem = mongoose.model("SoldItem", soldItemSchema)

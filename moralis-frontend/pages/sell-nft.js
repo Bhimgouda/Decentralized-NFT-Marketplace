@@ -4,13 +4,15 @@ import nftAbi from "../constants/Nft-erc721-abi.json"
 import nftMarketplacAddresses from "../constants/contractAddresses.json"
 import { useWeb3Contract } from "react-moralis";
 import {ethers} from "ethers"
+import { useRouter } from 'next/router';
 
-const CHAIN_ID = 31337
+const CHAIN_ID = 11155111
 const NFT_MARKETPLACE_ADDRESS = nftMarketplacAddresses[CHAIN_ID]["NftMarketplace"]
 
 const SellNft = () => {
     const {runContractFunction} = useWeb3Contract()
     const dispatch = useNotification()
+    const router = useRouter()
 
     const approveAndList = async (data)=>{
         console.log("Approving...")
@@ -27,46 +29,52 @@ const SellNft = () => {
                 tokenId: tokenId,
             },
         }
-
+        
         await runContractFunction({
                 params: approveOptions,
-                onSuccess: ()=>handleApproveSuccess(nftAddress, tokenId, price),
+                onSuccess: async (tx)=>{
+                    await tx.wait(1)
+                    handleApproveSuccess(nftAddress, tokenId, price)
+                },
                 onError: (error)=>{
                     console.log(error)
                 }
-        })
-    }
-
-    const handleApproveSuccess = async(nftAddress, tokenId, price)=>{
-        console.log("Ok! Now time to List")
-
-        const listOptions = {
-            abi: nftMarketplaceAbi,
-            contractAddress: NFT_MARKETPLACE_ADDRESS,
-            functionName: "listItem",
-            params: {
-                nftAddress,
-                tokenId,
-                price
-            }
+            })
         }
+
+        const handleApproveSuccess = async(nftAddress, tokenId, price)=>{
+            console.log("Ok! Now time to List")
+            
+            const listOptions = {
+                abi: nftMarketplaceAbi,
+                contractAddress: NFT_MARKETPLACE_ADDRESS,
+                functionName: "listItem",
+                params: {
+                    nftAddress,
+                    tokenId,
+                    price
+                },
+                gas: 100000,
+            }
 
         await runContractFunction({
             params: listOptions,
-            onSuccess: ()=> handleListSuccess(),
+            onSuccess: handleListSuccess,
             onError: (error)=>{
                 console.log(error)
             }
         })
     }
 
-    const handleListSuccess = async ()=>{
+    const handleListSuccess = async (tx)=>{
+        await tx.wait(1)
         dispatch({
             type: "success",
             message: "NFT listing",
             title: "NFT listed",
             position: "topR"
         })
+        router.push("/")
     }
 
     return ( 

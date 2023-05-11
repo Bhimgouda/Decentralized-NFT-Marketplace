@@ -6,6 +6,10 @@ const listedItemSchema = new Schema({
     nftAddress: String,
     tokenId: Number,
     price: Number,
+    transactionHash: {
+        type: String,
+        unique: true
+    }
 },{ timestamps: true })
 
 const ListedItem = mongoose.model("ListedItem", listedItemSchema)

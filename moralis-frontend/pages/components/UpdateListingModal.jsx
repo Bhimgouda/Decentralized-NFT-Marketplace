@@ -5,10 +5,10 @@ import { useState } from "react";
 import {ethers} from "ethers"
 import nftMarketplacAddresses from "../../constants/contractAddresses.json"
 
-const CHAIN_ID = 31337
+const CHAIN_ID = 11155111
 const CONTRACT_ADDRESS = nftMarketplacAddresses[CHAIN_ID]["NftMarketplace"]
 
-const UpdateListingModal = ({onClose, nftAddress, tokenId, isVisible}) => {
+const UpdateListingModal = ({onClose, id, nftAddress, updateItemListing, tokenId, isVisible}) => {
     const [newPrice, setNewPrice] = useState(0)
     
     const {runContractFunction: updateListing} = useWeb3Contract({
@@ -25,7 +25,7 @@ const UpdateListingModal = ({onClose, nftAddress, tokenId, isVisible}) => {
     const dispatch = useNotification()
 
     const handleUpdateListingSuccess = async (tx)=>{
-        await tx.wait(1)
+        // await tx.wait(1)
         dispatch({
             type: "success",
             message: "listing updated",
@@ -33,6 +33,7 @@ const UpdateListingModal = ({onClose, nftAddress, tokenId, isVisible}) => {
             position: "topR",
         })
         onClose && onClose()
+        updateItemListing(id, newPrice)
         setNewPrice(0)
     }
 
