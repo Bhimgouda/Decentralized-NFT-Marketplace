@@ -8,24 +8,11 @@ import UpdateListingModal from "./UpdateListingModal"
 import { useNotification } from "web3uikit";
 import nftMarketPlaceAbi from "../../constants/contractAbi.json"
 import nftMarketplacAddresses from "../../constants/contractAddresses.json"
+import truncateStr from "../../utils/truncate";
 
 const CHAIN_ID = 11155111
 const NFT_MARKETPLACE_ADDRESS = nftMarketplacAddresses[CHAIN_ID]["NftMarketplace"]
 
-const truncateStr = (fullStr, strLen) =>{
-    if(fullStr.length <= strLen) return fullStr;
-
-    const separator = "..."
-    const seperatorLength = separator.length
-    const charsToShow = strLen - seperatorLength
-    const frontChars = Math.ceil(charsToShow / 2)
-    const backChars = Math.floor(charsToShow / 2)
-    return (
-        fullStr.substring(0, frontChars) +
-        separator +
-        fullStr.substring(fullStr.length - backChars)
-    )
-}
 
 const NftBox = ({ cancelItemListing, price, nftAddress, tokenId, seller, id, itemBought, updateItemListing}) => {
     const {isWeb3Enabled, account} = useMoralis()

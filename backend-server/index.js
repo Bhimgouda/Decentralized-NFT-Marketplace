@@ -7,7 +7,7 @@ const cors = require("cors");
 
 const contractABI = require('./constants/contractAbi.json');
 const contractAddresses = require("./constants/contractAddresses.json");
-const { addToMarketplace, removeFromMarketplace, itemSold, updateItemListing, getAllListing } = require("./controllers/marketplaceListing")
+const { addToMarketplace, removeFromMarketplace, itemSold, updateItemListing, getAllListing, getSoldItems } = require("./controllers/marketplaceListing")
 
 const PORT = process.env.PORT
 const MONGODB_URI = process.env.MONGODB_URI
@@ -28,6 +28,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.get("/api/listing", getAllListing)
+app.get("/api/sold-items", getSoldItems)
 
 // Error Handling middleware
 app.use((err, req, res, next) => {

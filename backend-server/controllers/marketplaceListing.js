@@ -7,6 +7,11 @@ const getAllListing = async(req, res)=>{
     res.send(items)
 }
 
+const getSoldItems = async (req,res)=>{
+    const soldItems = await SoldItem.find()
+    res.send(soldItems)
+}
+
 const addToMarketplace = async (seller, nftAddress, tokenId, price, event)=>{
     console.log(event.log.transactionHash)
     try{
@@ -53,10 +58,13 @@ const itemSold = async(buyer, nftAddress, tokenId, price, event)=>{
     }
 }
 
+
+
 module.exports = {
     addToMarketplace,
     removeFromMarketplace,
     updateItemListing,
     itemSold,
-    getAllListing
+    getAllListing,
+    getSoldItems
 }

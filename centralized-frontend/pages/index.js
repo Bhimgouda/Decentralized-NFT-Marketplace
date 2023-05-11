@@ -6,6 +6,8 @@ import nftMarketPlaceAbi from "../constants/contractAbi.json"
 import nftMarketplacAddresses from "../constants/contractAddresses.json"
 import {ethers} from "ethers"
 import { useNotification } from "web3uikit";
+import Table from "./components/table";
+import Hero from "./components/Hero";
 
 const CHAIN_ID = 11155111
 const NFT_MARKETPLACE_ADDRESS = nftMarketplacAddresses[CHAIN_ID]["NftMarketplace"]
@@ -101,6 +103,7 @@ export default function Home({data, error}) {
 
   return (
     <>
+      <Hero />
       <div onClick={handleWithdrawProceeds} className="bg-black py-2 cursor-pointer text-white text-center font-medium">Withdraw Earnings{" => "}{`${earnings} ETH`}</div>
       <div className="container mx-auto">
         <div className="flex justify-center flex-wrap gap-10">
@@ -108,14 +111,15 @@ export default function Home({data, error}) {
           {isWeb3Enabled && parseInt(chainId) === CHAIN_ID ? (
             listing.map(({price, nftAddress, tokenId, seller }, index) =>{
               return<NftBox key={`${nftAddress}${tokenId}${index}`} cancelItemListing={cancelItemListing} price={price} nftAddress={nftAddress} itemBought={itemBought} updateItemListing={updateItemListing} tokenId={tokenId} seller={seller} id={index} />
-      })
-          )
-          :
-          (
-            <div className="text-center">Connect Your Wallet and Switch to sepolia Testnet</div>
-          )}
+            })
+            )
+            :
+            (
+              <div className="text-center">Connect Your Wallet and Switch to sepolia Testnet</div>
+              )}
         </div>
       </div>
+      <Table />
     </>
   )
 }
