@@ -6,7 +6,9 @@
     4. `UpdateListing`: Update Price
     5. `withdrawProceeds`: Withdraw payment for my bought NFT's
 
-# For Moralis Frontend
+# Centralized Frontend
+
+    It is a centralized frontend as it makes api calls to a centralized server to get the required data
 
     1. Home page
         1.1 Show recently listed NFT's
@@ -19,4 +21,13 @@
 
 # Backend servers
 
-    It is a NodeJS server with Express and Moralis that fetches crypto data of the provided address and chain
+    1. It is a NodeJS server that listens to the events fired by our contract on specific chain using Ethers web3-client library
+    2. Makes changes to the MONGODB according to the event data
+    3. Responds back to frontend with the required indexed data
+
+# The Graph decentralized frontend
+
+    It is decentralized frontend as it utilizes the graph protocol instead of a centralized server
+
+    1. The graph protocol indexes the events in decentralized manner
+    2. Th frontend reads from the Graph using their set of API's
