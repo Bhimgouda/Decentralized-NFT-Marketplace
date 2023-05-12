@@ -33,7 +33,7 @@ const SellNft = () => {
         await runContractFunction({
                 params: approveOptions,
                 onSuccess: async (tx)=>{
-                    await tx.wait(1)
+                    await tx.wait()
                     handleApproveSuccess(nftAddress, tokenId, price)
                 },
                 onError: (error)=>{
@@ -67,7 +67,7 @@ const SellNft = () => {
     }
 
     const handleListSuccess = async (tx)=>{
-        await tx.wait(1)
+        await tx.wait()
         dispatch({
             type: "success",
             message: "NFT listing",

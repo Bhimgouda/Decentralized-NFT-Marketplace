@@ -127,3 +127,23 @@
     filter: invert(1);
   }
 }
+
+body {
+  margin: 0;
+}
+
+.app__overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  left: 0;
+  top: 0;
+}
+
+.app__overlay--light {
+  background-color: rgba(0, 0, 0, 1);
+  width: 100vw;
+  z-index: 10;
+  position: absolute;
+}

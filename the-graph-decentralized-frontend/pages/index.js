@@ -7,7 +7,7 @@ import nftMarketplacAddresses from "../constants/contractAddresses.json"
 import {ethers} from "ethers"
 import { useNotification } from "web3uikit";
 import { useQuery } from "@apollo/client";
-import { GET_LISTED_ITEMS } from "../constants/subgraphQueries";
+import { GET_LISTED_ITEMS, GET_SOLD_ITEMS } from "../constants/subgraphQueries";
 
 const CHAIN_ID = 11155111
 const NFT_MARKETPLACE_ADDRESS = nftMarketplacAddresses[CHAIN_ID]["NftMarketplace"]
@@ -22,7 +22,12 @@ export default function Home() {
 
   const {loading, error, data} = useQuery(GET_LISTED_ITEMS)
 
-  const [listing, setListing] = useState([])
+  const {data: soldData} = useQuery(GET_SOLD_ITEMS)
+
+  console.log(soldData)
+  
+
+  const [listing, setListing] = useState()
   const [earnings, setEarnings] = useState("0")
   const {isWeb3Enabled, chainId, account} = useMoralis()
   const dispatch = useNotification()
@@ -104,7 +109,7 @@ export default function Home() {
         <div className="flex justify-center flex-wrap gap-10">
         <h1 className="py-4 my-5 text-center font-bold w-full text-2xl">Recently Listed</h1>
           {isWeb3Enabled && parseInt(chainId) === CHAIN_ID ? (
-            loading || !data.listedItems ? (
+            loading || !listing ? (
               <div>Loading...</div> ) :
           listing.map(({price, nftAddress, tokenId, seller }, index) =>{
             console.log("hey")

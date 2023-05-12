@@ -33,7 +33,7 @@ const Table = () => {
           <tbody>
             {soldItems.map((item) => (
               <tr key={item.id}>
-                <td className="py-2">{truncateStr(item.transactionHash, 15)}</td>
+                <td className="py-2">{item?.transactionHash ? truncateStr(item.transactionHash, 15): null}</td>
                 <td className="py-2">{item.buyer}</td>
                 <td className="py-2">{item.nftAddress}</td>
                 <td className="py-2">{item.tokenId}</td>

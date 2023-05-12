@@ -14,7 +14,7 @@ const CHAIN_ID = 11155111
 const NFT_MARKETPLACE_ADDRESS = nftMarketplacAddresses[CHAIN_ID]["NftMarketplace"]
 
 
-const NftBox = ({ cancelItemListing, price, nftAddress, tokenId, seller, id, itemBought, updateItemListing}) => {
+const NftBox = ({ cancelItemListing, price, nftAddress, tokenId, seller, id, itemBought, updateItemListing, toggleLoading}) => {
     const {isWeb3Enabled, account} = useMoralis()
     const [tokenName, setTokenName] = useState("")
     const [imageUri, setImageUri] = useState("")
@@ -89,7 +89,9 @@ const NftBox = ({ cancelItemListing, price, nftAddress, tokenId, seller, id, ite
     }
 
     const handleBuyItemSuccess = async (tx)=>{
-        // await tx.wait()
+        // toggleLoading("Let the transaction complete")
+        // // await tx.wait()
+        await tx.wait()
         dispatch({
             type: "success",
             message: "Item bought!!",
@@ -97,6 +99,7 @@ const NftBox = ({ cancelItemListing, price, nftAddress, tokenId, seller, id, ite
             position: "topR"
         })
         itemBought(id)
+        // toggle
     }
 
     const handleCancelItem = async()=>{
@@ -107,7 +110,8 @@ const NftBox = ({ cancelItemListing, price, nftAddress, tokenId, seller, id, ite
     }
 
     const handleCancelItemSuccess = async (tx)=>{
-        // await tx.wait(1)
+        // await tx.wait()
+        await tx.wait(1)
         dispatch({
             type: "success",
             message: "Item removed from listing",

@@ -1,3 +1,6 @@
+The nft contract address on sepolia is
+0xd6781F9a27C4FA946ED293A188009a36021F92Ab
+
 # Decentralized NFT marketplace Backend Contract
 
     1. `listItem`: List NFT's on the marketplace

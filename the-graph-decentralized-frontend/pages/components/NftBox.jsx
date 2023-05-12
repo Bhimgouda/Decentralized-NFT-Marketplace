@@ -103,6 +103,7 @@ const NftBox = ({ cancelItemListing, price, nftAddress, tokenId, seller, id, ite
 
     const handleBuyItemSuccess = async (tx)=>{
         // await tx.wait()
+        await tx.wait()
         dispatch({
             type: "success",
             message: "Item bought!!",
@@ -120,7 +121,8 @@ const NftBox = ({ cancelItemListing, price, nftAddress, tokenId, seller, id, ite
     }
 
     const handleCancelItemSuccess = async (tx)=>{
-        // await tx.wait(1)
+        // await tx.wait()
+        await tx.wait()
         dispatch({
             type: "success",
             message: "Item removed from listing",

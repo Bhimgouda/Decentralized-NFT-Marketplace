@@ -1,8 +1,10 @@
 import '../styles/globals.css'
+import "../styles/index.css"
 import {MoralisProvider} from "react-moralis"
 import Header from './components/Header'
 import Head from 'next/head'
 import {NotificationProvider} from "web3uikit"
+import Overlay from './components/overlay'
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -15,7 +17,7 @@ function MyApp({ Component, pageProps }) {
       <MoralisProvider initializeOnMount={false}>
         <NotificationProvider>
           <Header />
-          <Component {...pageProps} />
+            <Component {...pageProps} />
         </NotificationProvider>
       </MoralisProvider>
     </>

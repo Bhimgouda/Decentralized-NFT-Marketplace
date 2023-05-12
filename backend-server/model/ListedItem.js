@@ -6,7 +6,8 @@ const listedItemSchema = new Schema({
     nftAddress: String,
     tokenId: Number,
     price: Number,
-    transactionHash: {
+    buyer: String,
+    itemId: {
         type: String,
         unique: true
     }

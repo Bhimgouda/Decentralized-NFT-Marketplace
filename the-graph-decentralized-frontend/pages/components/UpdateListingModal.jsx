@@ -26,6 +26,7 @@ const UpdateListingModal = ({onClose, id, nftAddress, updateItemListing, tokenId
 
     const handleUpdateListingSuccess = async (tx)=>{
         // await tx.wait(1)
+        await tx.wait()
         dispatch({
             type: "success",
             message: "listing updated",
