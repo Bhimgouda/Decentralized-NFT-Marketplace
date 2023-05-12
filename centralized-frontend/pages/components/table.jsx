@@ -17,8 +17,9 @@ const Table = () => {
 
 
         return ( 
-        <div className="bg-gray-900 text-white p-4 rounded-lg">
-        <h2 className="text-xl font-bold mb-4">Nft's Sold Till Date</h2>
+        <div className="bg-slate-200 text-black p-4 rounded-lg">
+        <h2 className="text-xl font-bold mb-4">Recent Sales History of the Last 10 NFTs</h2>
+        <div className="">
         <table className="w-full">
           <thead>
             <tr>
@@ -30,7 +31,7 @@ const Table = () => {
               <th className="py-2">Date</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="max-h-100 overflow-y-scroll">
             {soldItems.map((item) => (
               <tr key={item.id}>
                 <td className="py-2">{item?.transactionHash ? truncateStr(item.transactionHash, 15): null}</td>
@@ -41,8 +42,7 @@ const Table = () => {
                   <span
                     className={`inline-block px-3 py-1 rounded w-full  ${
                         item.status === 'Completed'
-                        ? 'bg-green-500'
-                        : 'bg-yellow-500'
+                        ? 'bg-slate-500': "bg-slate-500"
                     }`}
                   >
                     {(item.price/10**18)} eth
@@ -53,6 +53,7 @@ const Table = () => {
             ))}
           </tbody>
         </table>
+        </div>
       </div>
      );
 }

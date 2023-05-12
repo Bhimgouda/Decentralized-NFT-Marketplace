@@ -20,6 +20,13 @@ const SellNft = () => {
         const tokenId = data.data[1].inputResult
         const price = ethers.utils.parseUnits(data.data[2].inputResult, "ether").toString()
 
+        dispatch({
+            type: "info",
+            message: "Waiting for the approval",
+            title: "Waiting for Approval",
+            position: "topL"
+        })
+
         const approveOptions = {
             abi: nftAbi,
             contractAddress: nftAddress,
@@ -33,17 +40,31 @@ const SellNft = () => {
         await runContractFunction({
                 params: approveOptions,
                 onSuccess: async (tx)=>{
-                    await tx.wait(1)
-                    handleApproveSuccess(nftAddress, tokenId, price)
+                    handleApproveSuccess(nftAddress, tokenId, price, tx)
                 },
                 onError: (error)=>{
                     console.log(error)
+                    router.push("/")
                 }
             })
         }
-
-        const handleApproveSuccess = async(nftAddress, tokenId, price)=>{
-            console.log("Ok! Now time to List")
+        
+        const handleApproveSuccess = async(nftAddress, tokenId, price, tx)=>{
+            dispatch({
+                type: "info",
+                message: "Please wait for the transaction to complete",
+                title: "Approving NFT",
+                position: "topR",
+            })
+            
+            await tx.wait(1)
+            dispatch({
+                type: "success",
+                message: "Time to List the NFT",
+                title: "NFT Approved",
+                position: "topL",
+                
+            })
             
             const listOptions = {
                 abi: nftMarketplaceAbi,
@@ -62,15 +83,22 @@ const SellNft = () => {
             onSuccess: handleListSuccess,
             onError: (error)=>{
                 console.log(error)
+                router.push("/")
             }
         })
     }
 
     const handleListSuccess = async (tx)=>{
+        dispatch({
+            type: "info",
+            message: "Please wait for the transaction to complete",
+            title: "Listing NFT",
+            position: "topR",
+        })
         await tx.wait(1)
         dispatch({
             type: "success",
-            message: "NFT listing",
+            message: "NFT added to marketplace",
             title: "NFT listed",
             position: "topR"
         })

@@ -1,4 +1,5 @@
 const ListedItem = require("../model/ListedItem")
+const SoldItem = require("../model/SoldItem")
 
 const NULL_ADDRESS = "0x0000000000000000000000000000000000000000"
 const DEAD_ADDRESS = "0x000000000000000000000000000000000000dEaD"
@@ -18,7 +19,7 @@ const processAddToMarketplace = async (event)=>{
         console.log("Added to marketplace")
     } catch(e){
         if(e.code === 11000) {
-            await ListedItem.findOneAndUpdate({itemId: `${args[1]}${args[2]}`}, {buyer: NULL_ADDRESS})
+            await ListedItem.findOneAndUpdate({itemId: `${args[1]}${args[2]}`}, {buyer: NULL_ADDRESS, seller: args[0], price: args[3].toString()})
             console.log("Added to marketplace")
         }
         else console.log(e)
@@ -40,6 +41,13 @@ const processUpdateItemListing = async(event)=>{
 const processItemSold = async(event)=>{
     const {args} = event
     await ListedItem.findOneAndUpdate({itemId: `${args[1]}${args[2]}`}, {buyer: args[0]})
+    // await SoldItem.create({
+    //     buyer: args[0],
+    //     nftAddress: args[1],
+    //     tokenId: parseInt(args[2]),
+    //     transactionHash: event.transactionHash,
+    //     price: args[3].toString()
+    // })
     console.log("Item Sold")
 }
 

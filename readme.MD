@@ -11,7 +11,7 @@ The nft contract address on sepolia is
 
 # Centralized Frontend
 
-    It is a centralized frontend as it makes api calls to a centralized server to get the required data
+    It is a centralized frontend as it makes api calls to a centralized server to get the indexed event data
 
     1. Home page
         1.1 Show recently listed NFT's

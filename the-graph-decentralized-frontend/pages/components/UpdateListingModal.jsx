@@ -25,15 +25,21 @@ const UpdateListingModal = ({onClose, id, nftAddress, updateItemListing, tokenId
     const dispatch = useNotification()
 
     const handleUpdateListingSuccess = async (tx)=>{
-        // await tx.wait(1)
-        await tx.wait()
         dispatch({
-            type: "success",
-            message: "listing updated",
-            title: "Listing Updated - please refresh",
+            type: "info",
+            message: "Please wait for the transaction to complete",
+            title: "Updating Listing",
             position: "topR",
         })
         onClose && onClose()
+
+        await tx.wait(1)
+        dispatch({
+            type: "success",
+            message: "listing updated",
+            title: "Listing Updated",
+            position: "topR",
+        })
         updateItemListing(id, newPrice)
         setNewPrice(0)
     }
@@ -42,7 +48,7 @@ const UpdateListingModal = ({onClose, id, nftAddress, updateItemListing, tokenId
         <div>
             <Modal onCancel={onClose} onCloseButtonPressed={onClose} isVisible={isVisible}>
                 <Input 
-                label="Update listing price in L1 Currency (ETH)"
+                label="Update listing price (ETH)"
                 name="New Listing price"
                 type="number"
                 onChange={(event)=>{

@@ -8,26 +8,13 @@ import UpdateListingModal from "./UpdateListingModal"
 import { useNotification } from "web3uikit";
 import nftMarketPlaceAbi from "../../constants/contractAbi.json"
 import nftMarketplacAddresses from "../../constants/contractAddresses.json"
+import truncateStr from "../../utils/truncate";
 
 const CHAIN_ID = 11155111
 const NFT_MARKETPLACE_ADDRESS = nftMarketplacAddresses[CHAIN_ID]["NftMarketplace"]
 
-const truncateStr = (fullStr, strLen) =>{
-    if(fullStr.length <= strLen) return fullStr;
 
-    const separator = "..."
-    const seperatorLength = separator.length
-    const charsToShow = strLen - seperatorLength
-    const frontChars = Math.ceil(charsToShow / 2)
-    const backChars = Math.floor(charsToShow / 2)
-    return (
-        fullStr.substring(0, frontChars) +
-        separator +
-        fullStr.substring(fullStr.length - backChars)
-    )
-}
-
-const NftBox = ({ cancelItemListing, price, nftAddress, tokenId, seller, id, itemBought, updateItemListing}) => {
+const NftBox = ({ cancelItemListing, price, nftAddress, tokenId, seller, id, itemBought, updateItemListing, toggleLoading}) => {
     const {isWeb3Enabled, account} = useMoralis()
     const [tokenName, setTokenName] = useState("")
     const [imageUri, setImageUri] = useState("")
@@ -102,8 +89,13 @@ const NftBox = ({ cancelItemListing, price, nftAddress, tokenId, seller, id, ite
     }
 
     const handleBuyItemSuccess = async (tx)=>{
-        // await tx.wait()
-        await tx.wait()
+        dispatch({
+            type: "info",
+            message: "Please wait for the transaction to complete",
+            title: "Buying NFT",
+            position: "topR",
+        })
+        await tx.wait(1)
         dispatch({
             type: "success",
             message: "Item bought!!",
@@ -111,6 +103,7 @@ const NftBox = ({ cancelItemListing, price, nftAddress, tokenId, seller, id, ite
             position: "topR"
         })
         itemBought(id)
+
     }
 
     const handleCancelItem = async()=>{
@@ -121,8 +114,13 @@ const NftBox = ({ cancelItemListing, price, nftAddress, tokenId, seller, id, ite
     }
 
     const handleCancelItemSuccess = async (tx)=>{
-        // await tx.wait()
-        await tx.wait()
+        dispatch({
+            type: "info",
+            message: "Please wait for the transaction to complete",
+            title: "Removing Listing",
+            position: "topR",
+        })
+        await tx.wait(1)
         dispatch({
             type: "success",
             message: "Item removed from listing",
@@ -148,10 +146,12 @@ const NftBox = ({ cancelItemListing, price, nftAddress, tokenId, seller, id, ite
                                 </div>
                             </div>
                         </Card>
-                            {isOwnedByUser ? 
-                            <div onClick={handleCancelItem} className="bg-black font-medium cursor-pointer text-white text-center">REMOVE</div>
-                            : null
+                        {isOwnedByUser ? 
+                            <div onClick={handleCancelItem} className="bg-black font-medium cursor-pointer text-sm rounded-md py-1 text-white text-center">REMOVE</div>
+                            : 
+                            <div onClick={handleCardClick} className=" bg-slate-500 font-medium cursor-pointer text-sm rounded-md py-1 text-white text-center">BUY</div>
                             }
+                            
                     </div>
                 ):(
                     <div>Loading...</div>

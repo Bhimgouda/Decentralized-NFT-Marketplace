@@ -6,15 +6,15 @@ const Hero = () => {
 
 
     return ( 
-        <section className="bg-gray-900">
+        <section className="bg-slate-200">
       <div className="container mx-auto flex flex-col items-center justify-center h-screen">
-        <h1 className="text-4xl sm:text-6xl font-bold text-white mb-8 text-center">
+        <h1 className="text-4xl sm:text-6xl font-bold text-black mb-8 text-center">
           Welcome to Bhim's NFT Marketplace
         </h1>
-        <p className="text-xl sm:text-2xl text-white mb-12 text-center">
+        <p className="text-xl sm:text-2xl text-black mb-12 text-center">
           Discover, buy, and sell unique digital assets
         </p>
-        <div className="w-80 h-80 relative rounded-full overflow-hidden">
+        {/* <div className="w-80 h-80 relative rounded-full overflow-hidden">
           
           <Image
           loader={()=>imageUri}
@@ -25,7 +25,7 @@ const Hero = () => {
           className="rounded-lg shadow-lg"
         />
 
-        </div>
+        </div> */}
       </div>
     </section>
      );

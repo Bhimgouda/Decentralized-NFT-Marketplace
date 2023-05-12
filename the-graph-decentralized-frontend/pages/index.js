@@ -33,6 +33,7 @@ export default function Home() {
   const dispatch = useNotification()
 
   console.log(listing)
+
   
   useEffect(()=>{
     if(!error && data){
@@ -48,8 +49,8 @@ export default function Home() {
   }
 
   const updateItemListing = (id, price)=>{
-    const newListing = [...listing]
-    newListing[id].price = ethers.utils.parseUnits(price.toString(), 18)
+    let newListing = [...listing]
+    newListing[id] = {price: ethers.utils.parseUnits(price.toString(), 18), buyer: newListing[id].buyer, id: newListing[id].id, nftAddress: newListing[id].nftAddress, seller: newListing[id].seller, tokenId: newListing[id].tokenId}
     setListing(newListing)
   }
 
@@ -83,6 +84,13 @@ export default function Home() {
 
   const handleWithdrawProceedsSuccess = async (tx)=>{
     dispatch({
+      type: "info",
+      message: "Please wait for the transaction to complete",
+      title: "Withdrawing",
+      position: "topR",
+  })
+    tx.wait(1)
+    dispatch({
       type: "success",
       message: `Withdrawl of ${earnings} successful!!`,
       title: "Withdraw success",
@@ -99,7 +107,6 @@ export default function Home() {
       onError: (e)=>console.log(e)
     })
   }
-
 
   return (
     <>

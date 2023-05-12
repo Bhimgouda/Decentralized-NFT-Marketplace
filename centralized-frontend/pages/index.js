@@ -8,7 +8,6 @@ import {ethers} from "ethers"
 import { useNotification } from "web3uikit";
 import Table from "./components/table";
 import Hero from "./components/Hero";
-import Overlay from "./components/overlay"
 
 const CHAIN_ID = 11155111
 const NFT_MARKETPLACE_ADDRESS = nftMarketplacAddresses[CHAIN_ID]["NftMarketplace"]
@@ -33,10 +32,7 @@ export async function getServerSideProps(){
 export default function Home({data, error}) {
   const [listing, setListing] = useState([])
   const [earnings, setEarnings] = useState("0")
-  const [loading, setLoading] = useState({
-    loading: false,
-    message: "Wait"
-  })
+
   const {isWeb3Enabled, chainId, account} = useMoralis()
   const dispatch = useNotification()
 
@@ -87,6 +83,13 @@ export default function Home({data, error}) {
 
   const handleWithdrawProceedsSuccess = async (tx)=>{
     dispatch({
+      type: "info",
+      message: "Please wait for the transaction to complete",
+      title: "Withdrawing",
+      position: "topR",
+  })
+    tx.wait(1)
+    dispatch({
       type: "success",
       message: `Withdrawl of ${earnings} successful!!`,
       title: "Withdraw success",
@@ -114,27 +117,25 @@ export default function Home({data, error}) {
   }, [data, error, isWeb3Enabled])
 
   return (
-         loading.loading ? <Overlay loading={loading} />
-         : 
-         <>
-      <Hero />
-      <div onClick={handleWithdrawProceeds} className="bg-black py-2 cursor-pointer text-white text-center font-medium">Withdraw Earnings{" => "}{`${earnings} ETH`}</div>
-      <div className="container mx-auto m-10">
-        <div className="flex justify-center flex-wrap gap-10">
-        <h1 className="py-4 my-5 text-center font-bold w-full text-2xl">Recently Listed</h1>
-          {isWeb3Enabled && parseInt(chainId) === CHAIN_ID ? (
-            listing.map(({price, nftAddress, tokenId, seller }, index) =>{
-              return<NftBox toggleLoading={toggleLoading} key={`${nftAddress}${tokenId}${index}`} cancelItemListing={cancelItemListing} price={price} nftAddress={nftAddress} itemBought={itemBought} updateItemListing={updateItemListing} tokenId={tokenId} seller={seller} id={index} />
-            })
-            )
-            :
-            (
-              <div className="text-center">Connect Your Wallet and Switch to sepolia Testnet</div>
+      <>
+        <div onClick={handleWithdrawProceeds} className="bg-black py-2 cursor-pointer text-white text-center font-medium">Withdraw Earnings{" => "}{`${earnings} ETH`}</div>
+        <Hero />
+          <div className="container mx-auto">
+            <div className="flex justify-center flex-wrap gap-10">
+            <h1 className="py-4 my-5 text-center font-bold w-full text-2xl">Recently Listed</h1>
+              {isWeb3Enabled && parseInt(chainId) === CHAIN_ID ? (
+                listing.map(({price, nftAddress, tokenId, seller }, index) =>{
+                  return<NftBox toggleLoading={toggleLoading} key={`${nftAddress}${tokenId}${index}`} cancelItemListing={cancelItemListing} price={price} nftAddress={nftAddress} itemBought={itemBought} updateItemListing={updateItemListing} tokenId={tokenId} seller={seller} id={index} />
+                })
+                )
+                :
+                (
+                  <div className="text-center">Connect Your Wallet and Switch to sepolia Testnet</div>
               )}
+          </div>
         </div>
-      </div>
-      <Table />
-    </>
+        <Table />
+      </>
     
   )
 }

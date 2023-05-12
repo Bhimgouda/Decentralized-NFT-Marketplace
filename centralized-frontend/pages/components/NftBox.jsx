@@ -89,9 +89,13 @@ const NftBox = ({ cancelItemListing, price, nftAddress, tokenId, seller, id, ite
     }
 
     const handleBuyItemSuccess = async (tx)=>{
-        // toggleLoading("Let the transaction complete")
-        // // await tx.wait()
-        await tx.wait()
+        dispatch({
+            type: "info",
+            message: "Please wait for the transaction to complete",
+            title: "Buying NFT",
+            position: "topR",
+        })
+        await tx.wait(1)
         dispatch({
             type: "success",
             message: "Item bought!!",
@@ -99,7 +103,7 @@ const NftBox = ({ cancelItemListing, price, nftAddress, tokenId, seller, id, ite
             position: "topR"
         })
         itemBought(id)
-        // toggle
+
     }
 
     const handleCancelItem = async()=>{
@@ -110,7 +114,12 @@ const NftBox = ({ cancelItemListing, price, nftAddress, tokenId, seller, id, ite
     }
 
     const handleCancelItemSuccess = async (tx)=>{
-        // await tx.wait()
+        dispatch({
+            type: "info",
+            message: "Please wait for the transaction to complete",
+            title: "Removing Listing",
+            position: "topR",
+        })
         await tx.wait(1)
         dispatch({
             type: "success",
@@ -137,10 +146,12 @@ const NftBox = ({ cancelItemListing, price, nftAddress, tokenId, seller, id, ite
                                 </div>
                             </div>
                         </Card>
-                            {isOwnedByUser ? 
-                            <div onClick={handleCancelItem} className="bg-black font-medium cursor-pointer text-white text-center">REMOVE</div>
-                            : null
+                        {isOwnedByUser ? 
+                            <div onClick={handleCancelItem} className="bg-black font-medium cursor-pointer text-sm rounded-md py-1 text-white text-center">REMOVE</div>
+                            : 
+                            <div onClick={handleCardClick} className=" bg-slate-500 font-medium cursor-pointer text-sm rounded-md py-1 text-white text-center">BUY</div>
                             }
+                            
                     </div>
                 ):(
                     <div>Loading...</div>

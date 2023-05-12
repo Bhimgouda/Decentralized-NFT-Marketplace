@@ -1,17 +1,18 @@
 const ListedItem = require("../model/ListedItem");
+const SoldItem = require("../model/SoldItem");
 const { catchAsync } = require("../utils/catchAsync");
 
 const NULL_ADDRESS = "0x0000000000000000000000000000000000000000"
 const DEAD_ADDRESS = "0x000000000000000000000000000000000000dEaD"
 
 const getAllListing = async(req, res)=>{
-    const items = await ListedItem.find({buyer: NULL_ADDRESS})
+    const items = await ListedItem.find({buyer: NULL_ADDRESS}).sort({ _id: -1 })
     res.send(items)
 }
 
 const getSoldItems = async(req,res)=>{
-    const items = await ListedItem.find({buyer: {$nin: [NULL_ADDRESS, DEAD_ADDRESS]}})
-    res.send(items)
+    const itemsSold = await SoldItem.find().sort({ _id: -1 }).limit(10);
+    res.send(itemsSold)
 }
 
 const addToMarketplace = async (seller, nftAddress, tokenId, price, event)=>{
@@ -27,7 +28,7 @@ const addToMarketplace = async (seller, nftAddress, tokenId, price, event)=>{
         console.log("Added to marketPlace")
     } catch(e){
         if(e.code === 11000) {
-            await ListedItem.findOneAndUpdate({itemId: `${nftAddress}${tokenId}`}, {buyer: NULL_ADDRESS})
+            await ListedItem.findOneAndUpdate({itemId: `${nftAddress}${tokenId}`}, {buyer: NULL_ADDRESS, seller, price: price.toString()})
             console.log("Added to marketplace")
         }
         else console.log(e)
@@ -35,7 +36,7 @@ const addToMarketplace = async (seller, nftAddress, tokenId, price, event)=>{
 }
 
 const removeFromMarketplace = async (seller, nftAddress, tokenId, event)=>{
-    ListedItem.findOneAndUpdate({itemId: `${nftAddress}${tokenId}`}, {buyer: DEAD_ADDRESS})
+    await ListedItem.findOneAndUpdate({itemId: `${nftAddress}${tokenId}`}, {buyer: DEAD_ADDRESS})
     console.log("Removed listing")
 }
 
@@ -46,6 +47,13 @@ const updateItemListing = async(seller, nftAddress, tokenId, price, event)=>{
 
 const itemSold = async(buyer, nftAddress, tokenId, price, event)=>{
     await ListedItem.findOneAndUpdate({itemId: `${nftAddress}${tokenId}`}, {buyer})
+    // await SoldItem.create({
+    //     buyer,
+    //     nftAddress,
+    //     tokenId: parseInt(tokenId),
+    //     transactionHash: event.log.transactionHash,
+    //     price: price.toString()
+    // })
     console.log("Item Sold")
 }
 
