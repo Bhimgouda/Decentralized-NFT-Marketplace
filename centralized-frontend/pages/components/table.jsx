@@ -8,7 +8,7 @@ const Table = () => {
 
     useEffect(()=>{
         async function getSoldItems(){
-            const response = await axios.get("http://127.0.0.1:5000/api/sold-items")
+            const response = await axios.get("https://api-nft-marketplace.bhim.me/api/sold-items")
             console.log(response.data)
             setSoldItems(response.data)
         }

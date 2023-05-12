@@ -41,13 +41,13 @@ const processUpdateItemListing = async(event)=>{
 const processItemSold = async(event)=>{
     const {args} = event
     await ListedItem.findOneAndUpdate({itemId: `${args[1]}${args[2]}`}, {buyer: args[0]})
-    // await SoldItem.create({
-    //     buyer: args[0],
-    //     nftAddress: args[1],
-    //     tokenId: parseInt(args[2]),
-    //     transactionHash: event.transactionHash,
-    //     price: args[3].toString()
-    // })
+    await SoldItem.create({
+        buyer: args[0],
+        nftAddress: args[1],
+        tokenId: parseInt(args[2]),
+        transactionHash: event.transactionHash,
+        price: args[3].toString()
+    })
     console.log("Item Sold")
 }
 

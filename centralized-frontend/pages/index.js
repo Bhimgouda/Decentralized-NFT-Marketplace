@@ -14,7 +14,7 @@ const NFT_MARKETPLACE_ADDRESS = nftMarketplacAddresses[CHAIN_ID]["NftMarketplace
 
 export async function getServerSideProps(){
   try{
-    const {data} = await axios.get("http://127.0.0.1:5000/api/listing")
+    const {data} = await axios.get("https://api-nft-marketplace.bhim.me/api/listing")
     return {
       props: {
         data,

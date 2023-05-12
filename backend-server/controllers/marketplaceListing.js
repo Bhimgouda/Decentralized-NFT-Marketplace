@@ -47,13 +47,13 @@ const updateItemListing = async(seller, nftAddress, tokenId, price, event)=>{
 
 const itemSold = async(buyer, nftAddress, tokenId, price, event)=>{
     await ListedItem.findOneAndUpdate({itemId: `${nftAddress}${tokenId}`}, {buyer})
-    // await SoldItem.create({
-    //     buyer,
-    //     nftAddress,
-    //     tokenId: parseInt(tokenId),
-    //     transactionHash: event.log.transactionHash,
-    //     price: price.toString()
-    // })
+    await SoldItem.create({
+        buyer,
+        nftAddress,
+        tokenId: parseInt(tokenId),
+        transactionHash: event.log.transactionHash,
+        price: price.toString()
+    })
     console.log("Item Sold")
 }
 
