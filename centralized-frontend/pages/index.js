@@ -121,7 +121,7 @@ export default function Home({data, error}) {
         <div onClick={handleWithdrawProceeds} className="bg-black py-2 cursor-pointer text-white text-center font-medium">Withdraw Earnings{" => "}{`${earnings} ETH`}</div>
         <Hero />
           <div className="container mx-auto">
-            <div className="flex justify-center flex-wrap gap-10">
+            <div className="flex justify-center mb-10 flex-wrap gap-10">
             <h1 className="py-4 my-5 text-center font-bold w-full text-2xl">Recently Listed</h1>
               {isWeb3Enabled && parseInt(chainId) === CHAIN_ID ? (
                 listing.map(({price, nftAddress, tokenId, seller }, index) =>{

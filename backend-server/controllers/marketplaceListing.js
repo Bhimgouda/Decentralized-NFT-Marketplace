@@ -11,7 +11,7 @@ const getAllListing = async(req, res)=>{
 }
 
 const getSoldItems = async(req,res)=>{
-    const itemsSold = await SoldItem.find().sort({ _id: -1 }).limit(10);
+    const itemsSold = await SoldItem.find().sort({ _id: -1 }).limit(5);
     res.send(itemsSold)
 }
 

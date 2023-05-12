@@ -17,8 +17,8 @@ const Table = () => {
 
 
         return ( 
-        <div className="bg-slate-200 text-black p-4 rounded-lg">
-        <h2 className="text-xl font-bold mb-4">Recent Sales History of the Last 10 NFTs</h2>
+        <div className="bg-slate-200 mt-5 text-black p-4 rounded-lg">
+        <h2 className="text-xl font-bold mt-4 mb-4">Recent Sales History of the Last 5 NFTs</h2>
         <div className="">
         <table className="w-full">
           <thead>
@@ -40,7 +40,7 @@ const Table = () => {
                 <td className="py-2">{item.tokenId}</td>
                 <td className="py-2">
                   <span
-                    className={`inline-block px-3 py-1 rounded w-full  ${
+                    className={`inline-block px-3 py-1 rounded w-full text-white  ${
                         item.status === 'Completed'
                         ? 'bg-slate-500': "bg-slate-500"
                     }`}
