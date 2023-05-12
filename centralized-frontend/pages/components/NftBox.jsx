@@ -78,7 +78,7 @@ const NftBox = ({ cancelItemListing, price, nftAddress, tokenId, seller, id, ite
     }, [isWeb3Enabled])
 
     
-    const isOwnedByUser = seller.toLowerCase() == account
+    const isOwnedByUser = seller?.toLowerCase() == account
     const formattedSellerAddress = isOwnedByUser ? "you" : truncateStr(seller, 15)
 
     const handleCardClick = ()=>{
