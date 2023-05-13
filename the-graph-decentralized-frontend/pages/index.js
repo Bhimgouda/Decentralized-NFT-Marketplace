@@ -8,6 +8,7 @@ import {ethers} from "ethers"
 import { useNotification } from "web3uikit";
 import { useQuery } from "@apollo/client";
 import { GET_LISTED_ITEMS, GET_SOLD_ITEMS } from "../constants/subgraphQueries";
+import Hero from "./components/Hero";
 
 const CHAIN_ID = 11155111
 const NFT_MARKETPLACE_ADDRESS = nftMarketplacAddresses[CHAIN_ID]["NftMarketplace"]
@@ -112,6 +113,7 @@ export default function Home() {
     <>
     
       <div onClick={handleWithdrawProceeds} className="bg-black py-2 cursor-pointer text-white text-center font-medium">Withdraw Earnings{" => "}{`${earnings} ETH`}</div>
+      <Hero />
       <div className="container mx-auto">
         <div className="flex justify-center flex-wrap gap-10">
         <h1 className="py-4 my-5 text-center font-bold w-full text-2xl">Recently Listed</h1>
