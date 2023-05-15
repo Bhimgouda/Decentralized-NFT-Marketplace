@@ -7,33 +7,21 @@ import nftMarketplacAddresses from "../constants/contractAddresses.json"
 import {ethers} from "ethers"
 import { useNotification } from "web3uikit";
 import { useQuery } from "@apollo/client";
-import { GET_LISTED_ITEMS, GET_SOLD_ITEMS } from "../constants/subgraphQueries";
+import { GET_LISTED_ITEMS} from "../constants/subgraphQueries";
 import Hero from "./components/Hero";
+import Table from "./components/table";
+import ItemsBought from "./components/ItemsBought";
 
 const CHAIN_ID = 11155111
 const NFT_MARKETPLACE_ADDRESS = nftMarketplacAddresses[CHAIN_ID]["NftMarketplace"]
 
-function delay(milliseconds) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, milliseconds);
-  });
-}
-
 export default function Home() {
-
   const {loading, error, data} = useQuery(GET_LISTED_ITEMS)
-
-  const {data: soldData} = useQuery(GET_SOLD_ITEMS)
-
-  console.log(soldData)
   
-
   const [listing, setListing] = useState()
   const [earnings, setEarnings] = useState("0")
   const {isWeb3Enabled, chainId, account} = useMoralis()
   const dispatch = useNotification()
-
-  console.log(listing)
 
   
   useEffect(()=>{
@@ -43,7 +31,7 @@ export default function Home() {
     if(isWeb3Enabled){
       getEarnings()
     }
-  }, [data, error, isWeb3Enabled])
+  }, [data, error, isWeb3Enabled, account])
 
   const itemBought = (id)=>{
     cancelItemListing(id)
@@ -130,6 +118,8 @@ export default function Home() {
             <div className="text-center">Connect Your Wallet and Switch to sepolia Testnet</div>
           )}
         </div>
+        <ItemsBought/>
+        <Table/>
       </div>
     </>
   )

@@ -5,7 +5,7 @@ const DEAD_ADDRESS = "0x000000000000000000000000000000000000dEaD"
 
 export const GET_LISTED_ITEMS = gql`
 {
-        listedItems(first: 100, where: { buyer: "0x0000000000000000000000000000000000000000" }) {
+        listedItems(first: 50, where: { buyer: "0x0000000000000000000000000000000000000000" }) {
             id
             buyer
             seller
@@ -17,13 +17,14 @@ export const GET_LISTED_ITEMS = gql`
 `
 export const GET_SOLD_ITEMS = gql`
 {
-  listedItems(first: 100, where: { buyer_not_in: ["0x0000000000000000000000000000000000000000", "0x000000000000000000000000000000000000dEaD"] }) {
+  itemBoughts(first: 5) {
     id
     buyer
-    seller
     nftAddress
     tokenId
     price
+    transactionHash
+    transactionTime
   }
 }
 `

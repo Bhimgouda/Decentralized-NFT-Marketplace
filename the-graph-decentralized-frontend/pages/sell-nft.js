@@ -37,17 +37,27 @@ const SellNft = () => {
             },
         }
         
-        await runContractFunction({
+        try {
+            await runContractFunction({
                 params: approveOptions,
-                onSuccess: async (tx)=>{
-                    handleApproveSuccess(nftAddress, tokenId, price, tx)
+                onSuccess: async (tx) => {
+                    handleApproveSuccess(nftAddress, tokenId, price, tx);
                 },
-                onError: (error)=>{
-                    console.log(error)
-                    router.push("/")
+                onError: (error) => {
+
                 }
+            });
+        } catch (error) {
+            // Handle the error here
+            dispatch({
+                type: "error",
+                message: "You don't own the NFT",
+                title: "Approve Failed",
+                position: "topR",
             })
+            router.push("/")
         }
+    }
         
         const handleApproveSuccess = async(nftAddress, tokenId, price, tx)=>{
             dispatch({

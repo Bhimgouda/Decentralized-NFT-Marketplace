@@ -32,7 +32,6 @@ const UpdateListingModal = ({onClose, id, nftAddress, updateItemListing, tokenId
             position: "topR",
         })
         onClose && onClose()
-
         await tx.wait(1)
         dispatch({
             type: "success",
