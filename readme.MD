@@ -1,7 +1,6 @@
 # Decentralized NFT marketplace
-# Decentralized NFT marketplace
 
-![NFT-MARKETPLACE](./media/nft-marketplace.png)
+[![NFT-MARKETPLACE](./media/nft-marketplace.png)](https://www.linkedin.com/posts/bhimgouda-patil-05a254269_solidity-100daysofcode-activity-7062796065879592962-YMmf?utm_source=share&utm_medium=member_desktop)
 
 
 [See Live Demo of the dApp](https://www.linkedin.com/posts/bhimgouda-patil-05a254269_solidity-100daysofcode-activity-7062796065879592962-YMmf?utm_source=share&utm_medium=member_desktop)
