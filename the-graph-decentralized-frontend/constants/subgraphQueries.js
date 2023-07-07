@@ -17,7 +17,7 @@ export const GET_LISTED_ITEMS = gql`
 `
 export const GET_SOLD_ITEMS = gql`
 {
-  itemBoughts(first: 5) {
+  itemBoughts(first: 5, orderBy: transactionTime, orderDirection: desc) {
     id
     buyer
     nftAddress
