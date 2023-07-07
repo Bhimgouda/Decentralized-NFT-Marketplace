@@ -1,5 +1,7 @@
 # Decentralized NFT marketplace
 
+![NFT-MARKETPLACE](https://drive.google.com/file/d/1ag-igSZ9e2HuM1jgdIZ7w0KNrru8laTA/view?usp=sharing "Title")
+
 [See Live Demo of the dApp](https://www.linkedin.com/posts/bhimgouda-patil-05a254269_solidity-100daysofcode-activity-7062796065879592962-YMmf?utm_source=share&utm_medium=member_desktop)
 
 - Anyone can list their NFTs.
@@ -16,5 +18,6 @@ Although it doesn't have the best UI/UX, it gets the job done.
 3. Frontend App - For clients to interact with the dApp
 
 As long as you have some Sepolia ETH in your wallet, you are all set to interact with the dApp.
+
 
 [Check Verified Contracts of this dApp on Sepolia testnet](https://sepolia.etherscan.io/address/0xd6781F9a27C4FA946ED293A188009a36021F92Ab)
