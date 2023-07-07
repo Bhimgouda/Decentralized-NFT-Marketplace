@@ -1,39 +1,20 @@
-The nft contract address on sepolia is
-0xd6781F9a27C4FA946ED293A188009a36021F92Ab
+# Decentralized NFT marketplace
 
-# Decentralized NFT marketplace Backend Contract
+[See Live Demo of the dApp](https://www.linkedin.com/posts/bhimgouda-patil-05a254269_solidity-100daysofcode-activity-7062796065879592962-YMmf?utm_source=share&utm_medium=member_desktop)
 
-    1. `listItem`: List NFT's on the marketplace
-    2. `buyItem`: Buy the NFT's
-    3. `cancelItem`: Cancel a listing
-    4. `UpdateListing`: Update Price
-    5. `withdrawProceeds`: Withdraw payment for my bought NFT's
+- Anyone can list their NFTs.
+- Anyone can buy the listed NFTs.
+- Sellers can withdraw their earnings.
+- Additionally, sellers can delist or update their NFT listings.
+Although it doesn't have the best UI/UX, it gets the job done.
 
-# Centralized Frontend
+### So how does all this work? 🙃 
 
-    It is a centralized frontend as it makes api calls to a centralized server to get the indexed event data
+----------It has 3 main pieces to it---------
+1. Backend Smart contract - The Backbone
+2. Centralized Backend Server - Handles event indexing
+3. Frontend App - For clients to interact with the dApp
 
-    1. Home page
-        1.1 Show recently listed NFT's
-            1.1.1 If you own the NFT, you can update the listing
-            1.1.2 If not, you can buy the nft from listing
-    2. Sell Page
-        2.1 You can list your NFT on the marketplace
-        2.2 And withdraw proceeds
-        2.3 And can also cancel the listing
+As long as you have some Sepolia ETH in your wallet, you are all set to interact with the dApp.
 
-# Backend servers
-
-    1. It is a NodeJS server that listens to the events fired by our contract on specific chain using Ethers web3-client library
-    2. Makes changes to the MONGODB according to the event data
-    3. Responds back to frontend with the required indexed data
-
-# The Graph decentralized frontend
-
-Website Link for the-graph-frontend -
-https://the-graph-frontend-9z3uzvths-linkname.vercel.app/
-
-    It is decentralized frontend as it utilizes the graph protocol instead of a centralized server
-
-    1. The graph protocol indexes the events in decentralized manner
-    2. Th frontend reads from the Graph using their set of API's
+[Check Verified Contracts of this dApp on Sepolia testnet](https://sepolia.etherscan.io/address/0xd6781F9a27C4FA946ED293A188009a36021F92Ab)
